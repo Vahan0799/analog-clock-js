@@ -1,0 +1,109 @@
+@use './variables' as *;
+
+.clock {
+    --proportion: 40vmax;
+    position: relative;
+    width: var(--proportion);
+    height: var(--proportion);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    z-index: 1;
+
+    &::before {
+        content: '';
+        border-radius: 50%;
+        position: absolute;
+        width: calc(100% + 10px);
+        height: calc(100% + 10px);
+        background-image: linear-gradient(to right, $primary-blue, $primary-pink);
+        z-index: -1;
+        opacity: 0.1;
+    }
+
+    &__container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url('../assets/northern-lights.jpg');
+        background-position: center;
+
+        &::after {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            inset: 0;
+            backdrop-filter: blur(5px);
+        }
+    }
+
+    &__number {
+        position: absolute;
+        inset: 2vmax;
+        text-align: center;
+        font-size: 3vmax;
+        color: $primary-blue;
+        text-shadow: 0 0 12px $primary-blue;
+
+        @for $i from 1 through 12 {
+            &:nth-child(#{$i}) {
+                transform: rotate(calc(30deg * #{$i}));
+
+                span {
+                    transform: rotate(calc(-30deg * #{$i}))
+                }
+            }
+        }
+    }
+
+    &__dot {
+        position: absolute;
+        width: 2vmax;
+        height: 2vmax;
+        border-radius: 50%;
+        border: 0.4vmax solid $primary-blue;
+        background-color: $primary-pink;
+        z-index: 1;
+    }
+
+    &__hours,
+    &__minutes,
+    &__seconds {
+        --rotate: 0;
+        position: absolute;
+        bottom: 50%;
+        left: 50%;
+        transform: translate(-50%) rotate(calc(var(--rotate) * 1deg));
+        transform-origin: bottom;
+        border-radius: 30px 30px 0 0;
+    }
+
+    &__hours {
+        width: 1vmax;
+        height: 9.3vmax;
+        background-image: linear-gradient($primary-blue, $primary-pink);
+    }
+
+    &__minutes {
+        width: 1vmax;
+        height: 12.7vmax;
+        background-image: linear-gradient(to bottom, $primary-pink, $primary-blue);
+    }
+
+    &__seconds {
+        width: 0.4vmax;
+        height: 17vmax;
+        background-image: linear-gradient(to top, $primary-blue, $primary-pink);
+    }
+}
